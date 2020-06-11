@@ -23,7 +23,7 @@ allprojects() {
     apply plugin: "jacoco"
 
     group = "org.elypia.webserver-testbed"
-    version = "1.0.0"
+    version = "1.0.1"
     description = "An extension for MockWebServer to provide test utilities and test framework integrations."
 
     ext {
