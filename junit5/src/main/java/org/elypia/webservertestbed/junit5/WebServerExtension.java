@@ -16,9 +16,9 @@ import java.util.*;
  *   Extension for JUnit to create {@link MockResponse}
  *   through annotations.
  * </p>
- * <p>
- *   The following is an example on the simplest usage of this extention:
- *   <pre><code>
+ *
+ * The following is an example on the simplest usage of this extention:
+ * <pre><code>
  * public class MyTest {
  *
  *      // Register the extension, and retain a reference to it if you need any data from it.
@@ -31,7 +31,6 @@ import java.util.*;
  *          MyResponseObject response = myApi.makeApiRequest();
  *      }
  *  }</code></pre>
- * </p>
  *
  * @author seth@elypia.org (Seth Falco)
  * @since 1.0.0
