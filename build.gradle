@@ -1,0 +1,208 @@
+/*
+ * Copyright 2020-2020 Elypia CIC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+plugins {
+    id "com.jfrog.bintray" version "1.8.5" apply false
+}
+
+allprojects() {
+    apply plugin: "idea"
+    apply plugin: "jacoco"
+
+    group = "org.elypia.webserver-testbed"
+    version = "1.0.0"
+    description = "An extension for MockWebServer to provide test utilities and test framework integrations."
+
+    ext {
+        repoUrl = "https://gitlab.com/Elypia/webserver-testbed"
+        gitUrl = "${repoUrl}.git"
+        issueUrl = "${repoUrl}/issues"
+        website = "https://elypia.org/"
+
+        okhttpVersion = "4.7.2"
+        junitVersion = "5.6.2"
+    }
+
+    repositories {
+        jcenter()
+        mavenLocal()
+    }
+
+    jacoco {
+        toolVersion = "0.8.5"
+    }
+}
+
+subprojects() {
+    apply plugin: "java-library"
+    apply plugin: "maven-publish"
+    apply plugin: "maven"
+    apply plugin: "com.jfrog.bintray"
+
+    sourceCompatibility = 11
+    targetCompatibility = 11
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    dependencies {
+        // Logging
+        implementation "org.slf4j:slf4j-api:1.7.30"
+        testRuntimeOnly "ch.qos.logback:logback-classic:1.2.3"
+
+        // Testing
+        testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+        testImplementation "org.mockito:mockito-core:3.3.3"
+    }
+
+    /** Testing */
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+
+        reports {
+            html.enabled = false
+        }
+    }
+
+    /** Code Coverage */
+
+    jacocoTestReport {
+        reports {
+            html.enabled = false
+            xml.enabled = false
+        }
+    }
+
+    /** Upload to Bintray */
+
+    jar {
+        manifest {
+            attributes "Implementation-Title": this.name + path, "Implementation-Version": version
+        }
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        archiveClassifier = 'sources'
+    }
+
+    task javadocJar(type: Jar) {
+        from javadoc
+        archiveClassifier = 'javadoc'
+
+        javadoc {
+            options {
+                links += [ "https://docs.oracle.com/en/java/javase/13/docs/api/" ]
+            }
+        }
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    bintray {
+        user = System.getenv("BINTRAY_USER")
+        key = System.getenv("BINTRAY_KEY")
+        publications = ['mavenJava']
+        publish = true
+        pkg {
+            repo = this.name
+            name = project.path.substring(1).replace(':', '-')
+            desc = project.description
+            userOrg = "elypia"
+            websiteUrl = website
+            licenses = ["Apache-2.0"]
+            vcsUrl = gitUrl
+            issueTrackerUrl = issueUrl
+            publicDownloadNumbers = true
+            version {
+                name = project.version
+                desc = project.description
+                vcsTag = project.version
+                released = new Date()
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId project.path.substring(1).replace(':', '-')
+                groupId project.group
+                version project.version
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+
+                pom {
+                    name = this.name
+                    description = project.description
+                    url = website
+                    licenses {
+                        license {
+                            name = "The Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = "Seth"
+                            name = "Seth"
+                            email = "seth@elypia.org"
+                        }
+                    }
+                    scm {
+                        url = gitUrl
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** Generate Global JavaDocs for GitLab Pages */
+
+task globalJavadoc(type: Javadoc) {
+    source = subprojects.collect { it.sourceSets.main.allJava }
+    classpath = files(subprojects.collect { it.sourceSets.main.compileClasspath })
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
+/** Combine and ouput code coverage. */
+
+task jacocoMerge(type: JacocoMerge) {
+    executionData = files(subprojects.jacocoTestReport.executionData.findAll {it.asList() })
+
+    doFirst {
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
+    }
+}
+
+task jacocoReport(type: JacocoReport, dependsOn: jacocoMerge) {
+    sourceDirectories.from = files(subprojects.sourceSets.main.allSource.srcDirs.findAll { it.asList() })
+    classDirectories.from = files(subprojects.sourceSets.main.output.findAll { it.asList() })
+    executionData.from = files(jacocoMerge.destinationFile)
+
+    reports {
+        html.enabled = true
+        xml.enabled = false
+    }
+}

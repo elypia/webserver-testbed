@@ -1,0 +1,2 @@
+org.elypia.webservertestbed.junit5.ResourceLoaderExtension
+org.elypia.webservertestbed.junit5.WebServerExtension

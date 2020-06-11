@@ -1,0 +1,7 @@
+rootProject.name = 'webserver-testbed'
+
+/** Any code that isn't bound to a particular test framework. */
+include "core"
+
+/** Extension for JUnit 5 */
+include "junit5"
