@@ -1,6 +1,6 @@
 package org.elypia.webservertestbed.loaders;
 
-import org.elypia.webservertestbed.TestUtils;
+import org.elypia.webservertestbed.ResourceUtils;
 import org.elypia.webservertestbed.api.ContentLoader;
 
 import java.io.IOException;
@@ -16,6 +16,6 @@ public class ResourceContentLoader implements ContentLoader {
 
     @Override
     public String loadContent(String value) throws IOException {
-        return TestUtils.getAsString(value);
+        return ResourceUtils.getAsString(value);
     }
 }

@@ -67,7 +67,7 @@ public final class Mock {
      * @throws InstantiationException If the {@link ContentLoader} passed is an abstract class.
      * @throws IOException If an exception occurs while loading the content.
      */
-    public static <T extends ContentLoader> MockResponse of(String value, int responseCode, Class<T> loaderType) throws IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
+    public static MockResponse of(String value, int responseCode, Class<? extends ContentLoader> loaderType) throws IllegalAccessException, InvocationTargetException, InstantiationException, IOException {
         Constructor<?> constructor = Stream.of(loaderType.getConstructors())
             .filter((c) -> c.getParameterCount() == 0)
             .findAny()

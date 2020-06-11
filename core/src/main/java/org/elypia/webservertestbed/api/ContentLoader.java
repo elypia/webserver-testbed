@@ -16,6 +16,7 @@ import java.io.IOException;
 public interface ContentLoader {
 
     /**
+     * @param value The literal string that represents a resource that should be loaded.
      * @return The content to load from a given string intended
      * to be added to {@link MockResponse#setBody(String)}.
      * @throws IOException If an exception occurs while loading the content.

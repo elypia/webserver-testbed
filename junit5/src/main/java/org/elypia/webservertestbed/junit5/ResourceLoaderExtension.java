@@ -1,6 +1,6 @@
 package org.elypia.webservertestbed.junit5;
 
-import org.elypia.webservertestbed.TestUtils;
+import org.elypia.webservertestbed.ResourceUtils;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.slf4j.*;
@@ -47,11 +47,11 @@ public class ResourceLoaderExtension implements TestInstancePostProcessor {
             Class<?> fieldClazz = field.getType();
 
             if (fieldClazz == InputStream.class)
-                field.set(testInstance, TestUtils.getAsStream(resourcePath));
+                field.set(testInstance, ResourceUtils.getAsStream(resourcePath));
             else if (fieldClazz == String.class)
-                field.set(testInstance, TestUtils.getAsString(resourcePath));
+                field.set(testInstance, ResourceUtils.getAsString(resourcePath));
             else if (fieldClazz == byte[].class)
-                field.set(testInstance, TestUtils.getAsBytes(resourcePath));
+                field.set(testInstance, ResourceUtils.getAsBytes(resourcePath));
             else
                 throw new IllegalStateException(Resource.class + " can not be used for field of type " + fieldClazz + ".");
         }

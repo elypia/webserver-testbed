@@ -26,9 +26,9 @@ import java.util.Objects;
  * @author seth@elypia.org (Seth Falco)
  * @since 1.0.0
  */
-public final class TestUtils {
+public final class ResourceUtils {
 
-    private TestUtils() {
+    private ResourceUtils() {
         throw new IllegalStateException("Don't construct this class.");
     }
 
@@ -42,7 +42,7 @@ public final class TestUtils {
         Objects.requireNonNull(name);
         String path = File.separator + name;
 
-        InputStream stream = TestUtils.class.getResourceAsStream(path);
+        InputStream stream = ResourceUtils.class.getResourceAsStream(path);
         Objects.requireNonNull(stream, "Resource at `" + path + "`" + " doesn't exist.");
 
         return stream;
@@ -60,6 +60,7 @@ public final class TestUtils {
      *
      * @param name The path to the resource to load.
      * @return The content of the file.
+     * @throws IOException If we fail to read the resource.
      */
     public static String getAsString(String name) throws IOException {
         try (InputStream stream = getAsStream(name)) {
