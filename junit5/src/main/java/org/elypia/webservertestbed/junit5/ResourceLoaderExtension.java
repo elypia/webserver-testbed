@@ -19,7 +19,7 @@ import java.util.Collection;
  * <ul>
  * <li>{@link String}</li>
  * <li>{@link InputStream}</li>
- * <li>{@link Byte[]}</li>
+ * <li>{@link Byte Byte[]}</li>
  * </ul>
  *
  * @author seth@elypia.org (Seth Falco)
