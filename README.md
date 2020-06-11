@@ -135,7 +135,7 @@ make sure to get it sorted.
 [Matrix]: https://img.shields.io/matrix/elypia-general:matrix.org?logo=matrix "Matrix Shield"
 [Discord]: https://discord.com/api/guilds/184657525990359041/widget.png "Discord Shield"
 [Maven Central]: https://img.shields.io/maven-central/v/org.elypia.webserver-testbed/core "Download Shield"
-[Docs]: https://img.shields.io/badge/docs-webserver-testbed-blue.svg "Documentation Shield"
+[Docs]: https://img.shields.io/badge/docs-webserver--testbed-blue.svg "Documentation Shield"
 [Build]: https://gitlab.com/Elypia/webserver-testbed/badges/master/pipeline.svg "GitLab Build Shield"
 [Coverage]: https://gitlab.com/Elypia/webserver-testbed/badges/master/coverage.svg "GitLab Coverage Shield"
 [Donate]: https://img.shields.io/badge/donate-elypia-blueviolet "Donate Shield"
