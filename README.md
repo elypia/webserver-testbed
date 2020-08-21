@@ -1,5 +1,8 @@
-# MockWebServer Testbed [![Matrix]][matrix-community] [![Discord]][discord-guild] [![Maven Central]][maven-page] [![Docs]][documentation] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
-The [Gradle]/[Maven] import strings can be found at the maven-central badge above!
+<div align="center">
+
+# MockWebServer Testbed
+[![Matrix]][matrix-community] [![Discord]][discord-guild] [![Maven Central]][maven-page] [![Docs]][documentation] [![Build]][gitlab] [![Coverage]][gitlab] [![Donate]][elypia-donate]
+</div>
 
 ## About
 This is an extension for [MockWebServer] to include utilities for cleaner testing.
@@ -7,6 +10,8 @@ The goal of this project isn't to provide additional functionality to
 the existing OkHttp MockWebServer, but rather to allow a cleaner interface in 
 test cases with less clunky or repetitive initialization code and integration
 with modern test frameworks.
+
+The [Gradle]/[Maven] import strings can be found at the maven-central badge above!
 
 ## Getting Started
 ### JUnit 5
